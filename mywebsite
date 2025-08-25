@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova — A Creative One‑Page</title>
+  <meta name="description" content="A playful, creative one‑page website. Single HTML file. No build tools required." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #111736;
+      --text: #e7eaf6;
+      --muted: #a6b0cf;
+      --brand: #8b5cf6; /* purple */
+      --brand-2: #14b8a6; /* teal */
+      --ring: rgba(139, 92, 246, .35);
+      --card: rgba(255,255,255,.06);
+      --glass: rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .light {
+      --bg: #f7f8ff;
+      --bg-soft: #ffffff;
+      --text: #0f1226;
+      --muted: #4b5563;
+      --brand: #7c3aed;
+      --brand-2: #0ea5e9;
+      --ring: rgba(124, 58, 237, .25);
+      --card: rgba(0,0,0,.04);
+      --glass: rgba(255,255,255,.65);
+      --shadow: 0 12px 30px rgba(16,24,40,.15);
+    }
+
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text); background: radial-gradient(80vw 80vh at 10% 10%, rgba(139,92,246,.15), transparent 60%),
+               radial-gradient(80vw 80vh at 90% 10%, rgba(20,184,166,.12), transparent 60%),
+               radial-gradient(100vw 90vh at 50% 120%, rgba(99,102,241,.12), transparent 60%), var(--bg);
+      line-height: 1.6; overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1100px, 92%); margin: 0 auto; }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: blur(8px);
+      background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0));
+    }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; padding: 14px 0; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight: 800; letter-spacing:.3px; }
+    .logo { width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow); position: relative; }
+    .logo::after { content:''; position:absolute; inset:2px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,.25), transparent 40%); }
+    .nav a.link { opacity:.85; padding: 6px 10px; border-radius: 10px; }
+    .nav a.link:hover { background: var(--card); }
+    .nav-actions { display:flex; align-items:center; gap:10px; }
+    .btn {
+      display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:white; border: 0; cursor:pointer;
+      box-shadow: var(--shadow); font-weight: 600; letter-spacing:.2px;
+    }
+    .btn.ghost { background: var(--card); color: var(--text); box-shadow: none; }
+
+    /* Hero */
+    .hero { padding: 92px 0 64px; position: relative; }
+    .h1 { font-family: 'Space Grotesk', Inter, system-ui; font-size: clamp(36px, 6vw, 64px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 16px; }
+    .lead { font-size: clamp(16px, 2.4vw, 19px); color: var(--muted); max-width: 720px; margin: 0 0 26px; }
+    .hero .cta { display:flex; gap:12px; flex-wrap: wrap; }
+
+    /* Floating blobs */
+    .blob { position:absolute; filter: blur(40px); opacity:.35; border-radius: 50%; mix-blend-mode: screen; }
+    .blob.one { width: 360px; height: 360px; left: -80px; top: -60px; background: radial-gradient(circle at 30% 30%, #a78bfa, transparent 60%); animation: float 12s ease-in-out infinite; }
+    .blob.two { width: 320px; height: 320px; right: -60px; top: -40px; background: radial-gradient(circle at 70% 30%, #34d399, transparent 60%); animation: float 13s ease-in-out infinite reverse; }
+    .blob.three { width: 280px; height: 280px; left: 40%; top: 20%; background: radial-gradient(circle at 50% 50%, #60a5fa, transparent 60%); animation: float 16s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(16px) } }
+
+    /* Cards */
+    .grid { display:grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .card { grid-column: span 6; background: var(--glass); border: 1px solid rgba(255,255,255,.12); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); position:relative; overflow:hidden; }
+    .card.highlight { grid-column: span 12; display:grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center; }
+    .badge { display:inline-block; padding: 6px 10px; border-radius: 999px; background: rgba(139,92,246,.15); border: 1px solid var(--ring); color: #c4b5fd; font-weight:600; font-size: 12px; letter-spacing:.3px; }
+    .card h3 { margin: 10px 0 6px; font-family: 'Space Grotesk', Inter; letter-spacing: -.02em; }
+    .card p { margin: 0 0 10px; color: var(--muted); }
+
+    /* Showcase chips */
+    .chips { display:flex; flex-wrap:wrap; gap:10px; }
+    .chip { padding:8px 12px; border-radius:999px; background: var(--card); border:1px solid rgba(255,255,255,.1); font-size: 13px; }
+
+    /* Gallery */
+    .gallery { display:grid; grid-template-columns: repeat(6, 1fr); gap:12px; }
+    .tile { aspect-ratio: 4/3; border-radius: 16px; position:relative; overflow:hidden; background: linear-gradient(135deg, rgba(139,92,246,.25), rgba(20,184,166,.25)); border: 1px solid rgba(255,255,255,.12); }
+    .tile .meta { position:absolute; inset:auto 10px 10px 10px; background: rgba(0,0,0,.35); padding:8px 10px; border-radius: 12px; font-size: 12px; }
+    .tile:nth-child(1), .tile:nth-child(4) { grid-column: span 3; }
+    .tile:nth-child(2) { grid-column: span 2; }
+    .tile:nth-child(3) { grid-column: span 1; }
+
+    /* Section headings */
+    .section { padding: 54px 0; }
+    .section h2 { font-family: 'Space Grotesk', Inter; font-size: clamp(26px, 4vw, 40px); margin: 0 0 14px; letter-spacing: -.02em; }
+    .section p.lead { margin-bottom: 24px; }
+
+    /* CTA banner */
+    .banner { margin: 36px 0; padding: 20px; border-radius: 18px; background: linear-gradient(135deg, rgba(139,92,246,.18), rgba(20,184,166,.18)); border: 1px solid rgba(255,255,255,.18); display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+
+    /* Footer */
+    footer { padding: 40px 0 60px; color: var(--muted); }
+
+    /* Utilities */
+    .row { display:flex; gap:14px; flex-wrap: wrap; align-items:center; }
+    .hidden { display:none; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .card { grid-column: span 12; }
+      .card.highlight { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .tile { grid-column: span 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Decorative blobs -->
+  <div class="blob one" aria-hidden="true"></div>
+  <div class="blob two" aria-hidden="true"></div>
+  <div class="blob three" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Nova brand">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Nova</span>
+      </a>
+      <div class="row">
+        <a class="link" href="#work">Work</a>
+        <a class="link" href="#about">About</a>
+        <a class="link" href="#contact">Contact</a>
+        <button id="themeBtn" class="btn ghost" aria-pressed="false" aria-label="Toggle theme">🌗 Theme</button>
+      </div>
+    </div>
+  </nav>
+
+  <header id="top" class="hero">
+    <div class="container">
+      <h1 class="h1">Design that feels <span style="background: linear-gradient(135deg, var(--brand), var(--brand-2)); -webkit-background-clip:text; background-clip:text; color: transparent;">alive</span>.</h1>
+      <p class="lead">A playful, single‑file website starter with animated gradients, glassy cards, and micro‑interactions. Copy → paste → ship. No frameworks or build tools — just HTML, CSS & a sprinkle of vanilla JS.</p>
+      <div class="cta">
+        <a href="#work" class="btn">See the magic ✨</a>
+        <a href="#about" class="btn ghost">How it works</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="work" class="section">
+      <div class="container">
+        <h2>Featured work</h2>
+        <p class="lead">Cards with soft glass, gentle motion, and accessible hover states.</p>
+
+        <div class="grid">
+          <article class="card" data-tilt>
+            <span class="badge">UI Kit</span>
+            <h3>Neon Mist</h3>
+            <p>A color‑first kit with adaptive contrast and semantic tokens.</p>
+            <div class="chips">
+              <span class="chip">Tokens</span>
+              <span class="chip">A11y</span>
+              <span class="chip">Dark/Light</span>
+            </div>
+          </article>
+
+          <article class="card" data-tilt>
+            <span class="badge" style="background: rgba(20,184,166,.15); color:#99f6e4; border-color: rgba(20,184,166,.35);">Illustration</span>
+            <h3>Waveforms</h3>
+            <p>Generative shapes driven by simple trigonometry.</p>
+            <div class="chips">
+              <span class="chip">Canvas</span>
+              <span class="chip">Math</span>
+              <span class="chip">Loops</span>
+            </div>
+          </article>
+
+          <article class="card highlight" data-tilt>
+            <div>
+              <span class="badge">Case Study</span>
+              <h3>Glass Garden</h3>
+              <p>Weaving blur, light, and depth into a calm dashboard.</p>
+              <div class="chips">
+                <span class="chip">Blur</span>
+                <span class="chip">Depth</span>
+                <span class="chip">Motion</span>
+              </div>
+              <div class="row" style="margin-top:12px;">
+                <a class="btn" href="#contact">Get a demo</a>
+                <a class="btn ghost" href="#">Read more</a>
+              </div>
+            </div>
+            <div style="aspect-ratio: 16/10; border-radius:16px; background: radial-gradient(120% 120% at 0% 0%, rgba(255,255,255,.18), transparent 40%), linear-gradient(135deg, rgba(139,92,246,.28), rgba(20,184,166,.28)); border:1px solid rgba(255,255,255,.18);"></div>
+          </article>
+
+          <article class="card" data-tilt>
+            <span class="badge" style="background: rgba(59,130,246,.18); color:#bfdbfe; border-color: rgba(59,130,246,.35);">Branding</span>
+            <h3>Orbit</h3>
+            <p>Logo system that scales across themes and sizes.</p>
+            <div class="chips">
+              <span class="chip">SVG</span>
+              <span class="chip">Grid</span>
+              <span class="chip">Responsive</span>
+            </div>
+          </article>
+
+          <article class="card" data-tilt>
+            <span class="badge">Micro‑sites</span>
+            <h3>Stardust</h3>
+            <p>One‑pagers that load fast and sparkle.</p>
+            <div class="chips">
+              <span class="chip">No JS</span>
+              <span class="chip">Perf</span>
+              <span class="chip">CSS‑only</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="banner" role="region" aria-label="Quick CTA">
+          <strong style="font-family: 'Space Grotesk', Inter; font-size: 18px;">Have an idea?</strong>
+          <span style="flex:1; color: var(--muted);">Tell me what you want to build and I'll spin up a concept in hours.</span>
+          <a href="#contact" class="btn">Start a project →</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <h2>How this page works</h2>
+        <p class="lead">Single file, no dependencies. Theme toggle, tilt on hover, and scroll‑reveal — all in ~70 lines of JS.</p>
+
+        <div class="gallery" aria-label="Visual gallery">
+          <figure class="tile" data-tilt>
+            <figcaption class="meta">Animated gradients</figcaption>
+          </figure>
+          <figure class="tile" data-tilt>
+            <figcaption class="meta">Glassy cards</figcaption>
+          </figure>
+          <figure class="tile" data-tilt>
+            <figcaption class="meta">Soft shadows</figcaption>
+          </figure>
+          <figure class="tile" data-tilt>
+            <figcaption class="meta">Responsive grid</figcaption>
+          </figure>
+          <figure class="tile" data-tilt>
+            <figcaption class="meta">Accessible buttons</figcaption>
+          </figure>
+          <figure class="tile" data-tilt>
+            <figcaption class="meta">Vanilla JS</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>Contact</h2>
+        <p class="lead">This is a static demo form. Wire it up to Formspree, Netlify Forms, or your own backend.</p>
+
+        <form class="card" style="max-width:720px; margin: 0 auto;">
+          <label>
+            <span class="sr-only">Your name</span>
+            <input required type="text" name="name" placeholder="Your name" style="width:100%; padding:14px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.18); background: var(--bg-soft); color:var(--text); outline: none; box-shadow: none; margin-bottom: 10px;" />
+          </label>
+          <label>
+            <span class="sr-only">Email</span>
+            <input required type="email" name="email" placeholder="you@example.com" style="width:100%; padding:14px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.18); background: var(--bg-soft); color:var(--text); outline: none; box-shadow: none; margin-bottom: 10px;" />
+          </label>
+          <label>
+            <span class="sr-only">Message</span>
+            <textarea required name="message" placeholder="Tell me about your project..." rows="5" style="width:100%; padding:14px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.18); background: var(--bg-soft); color:var(--text); outline: none; box-shadow: none; resize: vertical;"></textarea>
+          </label>
+          <div class="row" style="justify-content: space-between; margin-top: 10px;">
+            <label style="display:flex; align-items:center; gap:8px; font-size: 14px; color: var(--muted);">
+              <input id="newsletter" type="checkbox" aria-label="Subscribe to newsletter" /> Subscribe to updates
+            </label>
+            <button type="button" class="btn" id="fakeSubmit">Send message</button>
+          </div>
+          <p id="thanks" class="hidden" role="status" style="margin-top:12px; color: #86efac;">Thanks! This demo form doesn't send yet, but your UI works 🎉</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="row" style="justify-content: space-between;">
+        <small>© <span id="year"></span> Nova Studio</small>
+        <small>Built with ♥ — single HTML file</small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle (light/dark) with localStorage
+    const themeBtn = document.getElementById('themeBtn');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') document.documentElement.classList.add('light');
+    if (!saved && !prefersDark) document.documentElement.classList.add('light');
+    themeBtn.addEventListener('click', () => {
+      const isLight = document.documentElement.classList.toggle('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      themeBtn.setAttribute('aria-pressed', String(isLight));
+    });
+
+    // Scroll reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.animate([
+            { transform:'translateY(14px)', opacity: .001 },
+            { transform:'translateY(0)', opacity: 1 }
+          ], { duration: 500, easing: 'cubic-bezier(.2,.8,.2,1)', fill:'forwards' });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.card, .tile').forEach(el => observer.observe(el));
+
+    // Tiny tilt effect on hover (no library)
+    const clamp = (n, min, max) => Math.max(min, Math.min(n, max));
+    document.querySelectorAll('[data-tilt]').forEach((el) => {
+      const strength = 10; // deg
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width; // 0..1
+        const py = (e.clientY - r.top) / r.height;
+        const rx = clamp((.5 - py) * strength, -strength, strength);
+        const ry = clamp((px - .5) * strength, -strength, strength);
+        el.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'perspective(600px) rotateX(0) rotateY(0)';
+        el.style.transition = 'transform 200ms ease';
+        setTimeout(() => el.style.transition = '', 220);
+      });
+    });
+
+    // Fake submit for the demo form
+    const fakeBtn = document.getElementById('fakeSubmit');
+    const thanks = document.getElementById('thanks');
+    fakeBtn.addEventListener('click', () => {
+      thanks.classList.remove('hidden');
+      fakeBtn.textContent = 'Sent ✔';
+      fakeBtn.disabled = true;
+      setTimeout(() => { fakeBtn.textContent = 'Send message'; fakeBtn.disabled = false; thanks.classList.add('hidden'); }, 2400);
+    });
+
+    // Year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
