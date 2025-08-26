@@ -1,41 +1,28 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "mywebsite"
-        IMAGE_TAG = "latest"
-        CONTAINER_NAME = "flamboyant_proskuriakova"
+    triggers {
+        githubPush()   // Trigger on GitHub push
     }
 
     stages {
         stage('Pull Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/Aman-ux-source/your-repo.git'
+                git branch: 'main',
+                    url: 'https://github.com/Aman-ux-source/mywebsite.git',
+                    credentialsId: 'github-credentials'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Deploy Website') {
             steps {
-                script {
-                    sh "docker build -t ${mywebsite}:${latest} ."
-                }
-            }
-        }
-
-        stage('Run Container') {
-            steps {
-                script {
-                    // Stop and remove old container if running
-                    sh """
-                    if [ \$(docker ps -q -f name=${flamboyant_proskuriakova}) ]; then
-                        docker rm -f ${flamboyant_proskuriakova}
-                    fi
-                    """
-
-                    // Run new container
-                    sh "docker run -d --name ${newcontainer} -p 9090:80 ${mywebsite}:${latest}"
-                }
+                sh '''
+                echo "Deploying website..."
+                rm -rf /var/www/html/mywebsite/*
+                cp -r * /var/www/html/mywebsite/
+                '''
             }
         }
     }
 }
+
